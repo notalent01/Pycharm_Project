@@ -1,13 +1,14 @@
 import requests
 import json
 import re
+import time
 from test1 import format_cookies
 # from test1 import db_jingpai
 # from test1 import db_jingpai
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
-db_paimaiIds = "15716621"
+db_paimaiIds = "15740500"
 # a2 = json.dumps(a1)
 # print ("a1是:" + str(a1))
 # print ("a2是" + a2)
@@ -19,9 +20,11 @@ def loads_jsonp(_jsonp):
 
 def obtain_value(str):
     url1 = 'http://dbditem.jd.com/services/currentList.action'
-
-    url1_params = {"paimaiIds": db_paimaiIds, "curPaimaiId": db_paimaiIds, "callback": "jsonp_1498041672070",
-                   "_": "1498041672071"}
+    current_localtime = int(round(time.time() * 1000))
+    next_localtime = str(current_localtime + 1)
+    callback = "jsonp_" + str(current_localtime)
+    url1_params = {"paimaiIds": db_paimaiIds, "curPaimaiId": db_paimaiIds, "callback": callback,
+                   "_": next_localtime}
     cookies = format_cookies.format_cookies()
     res1 = requests.get(url1, params=url1_params, cookies=cookies, proxies=proxies)
     a1 = res1.text

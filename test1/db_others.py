@@ -7,6 +7,6 @@ if __name__ == '__main__':
     while request_test.obtain_value("remainTime") > 0:
         try:
             print(db_getPrice())
-            time.sleep(5)
+            time.sleep(1)
         except Exception as e:
             print(e)

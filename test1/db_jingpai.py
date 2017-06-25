@@ -35,19 +35,29 @@ def db_price():
         relbid = requests.get(url_bid, params=urlbid_params, headers=headers, cookies=cookies, proxies=proxies)
         res = relbid.text
         res_json = json.loads(res)
-        print(res_json)
+        # print(res_json)
         if res_json[db_result] == 200:
-            jp_result = "我出价成功了" + res_json["message"]
+            jp_result = "\033[1;35m我出价成功了 \033[0m" + res_json["message"]
         else :
             jp_result = "没有竞拍成功，原因是：" + res_json["message"]
     else :
             jp_result = "大于当前价格"
     return jp_result
 if __name__ == '__main__':
+
     while request_test.obtain_value("remainTime") > 0:
         try:
-            # db_price()
-            print(db_price())
-            time.sleep(2)
+            remainTime = request_test.obtain_value("remainTime")
+            hours = int((remainTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+            minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
+            seconds = int((remainTime % (1000 * 60)) / 1000)
+            if remainTime > 45000:
+                print("先别竞拍，当前商品还剩余： " + str(hours) + "小时",str(minutes) + "分",str(seconds) + "秒")
+                time.sleep(5)
+            else:
+                print(db_price() + "  时间还剩下：" + str(hours) + "小时",str(minutes) + "分",str(seconds) + "秒")
+                time.sleep(2)
         except Exception as e:
             print(e)
+    else:
+        print("\033[1;33;44m竞拍已结束 !\033[0m")
