@@ -89,7 +89,7 @@ if __name__ == '__main__':
         current_bid_username = bid_list.bid_result("username")
         print("\033[1;33;44m竞拍已结束 !\033[0m")
         print("竞拍成功的人是：" + current_bid_username + "当前的价格是 " + str(current_bid_price))
-        if current_bid_username == "****nldg":
+        if current_bid_username == "****1wgj":
             print("\033[1;35m我终于买到了！！！ \033[0m")
         else:
             print("又被人抢走了")
