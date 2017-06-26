@@ -1,5 +1,5 @@
 def format_cookies():
-    f = open(r'cookie2.txt','r')
+    f = open(r'cookies/cookie2.txt','r')
     cookies = {}
     for line in f.read().split(';'):   #按照字符：进行划分读取
         #其设置为1就会把字符串拆分成2份
