@@ -23,7 +23,7 @@ def db_pmprice(db_price):
     # db_price = 0
     db_currentPrice = int(request_test.obtain_value("currentPrice"))
     expect_price = request_test.expect_price
-    if db_currentPrice > db_price and db_currentPrice < expect_price:
+    if db_currentPrice > db_price and db_currentPrice <= expect_price:
         print('当前的价格：%s'%db_currentPrice)
         db_price = int(request_test.obtain_value("currentPrice") + request_test.obtain_value("priceLowerOffset"))
         print('我出的价格：%s'%db_price)
