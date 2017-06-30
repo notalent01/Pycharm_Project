@@ -8,8 +8,8 @@ from test1 import format_cookies
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
-db_paimaiIds = "15779653"
-expect_price = 800
+db_paimaiIds = "15804459"
+expect_price = 1400
 # a2 = json.dumps(a1)
 # print ("a1是:" + str(a1))
 # print ("a2是" + a2)

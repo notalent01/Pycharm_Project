@@ -49,10 +49,10 @@ if __name__ == '__main__':
             hours = int((remainTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
             minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
             seconds = int((remainTime % (1000 * 60)) / 1000)
-            if remainTime > 25000:
+            if remainTime > 40000:
                 print("先别竞拍，当前商品还剩余： " + str(hours) + "小时",str(minutes) + "分",str(seconds) + "秒")
                 time.sleep(5)
-            elif remainTime > 20000:
+            elif remainTime > 38000:
                 print("做好准备，开始抢购" + "当前的价格是 " + str(request_test.obtain_value("currentPrice")) + "时间还剩下：" + str(hours) + "小时",str(minutes) + "分",str(seconds) + "秒")
                 time.sleep(1)
             else:#如果时间小于等于20秒之间，就抢购一次

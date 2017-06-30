@@ -2,6 +2,7 @@
 import requests
 import json
 import time
+import threading
 from test1 import format_cookies
 from test1 import request_test
 from test1 import bid_list
@@ -11,7 +12,6 @@ proxies = {
     "http":"http://127.0.0.1:8888"
 }
 db_paimaiId = request_test.db_paimaiIds
-expect_price = request_test.expect_price
 headers = {"Accept":"application/json, text/javascript, */*; q=0.01",
            "User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0",
            "X-Requested-With":"XMLHttpRequest",
@@ -22,6 +22,7 @@ db_result = "result"
 def db_pmprice(db_price):
     # db_price = 0
     db_currentPrice = int(request_test.obtain_value("currentPrice"))
+    expect_price = request_test.expect_price
     if db_currentPrice > db_price and db_currentPrice <= expect_price:
         print('当前的价格：%s'%db_currentPrice)
         db_price = int(request_test.obtain_value("currentPrice") + request_test.obtain_value("priceLowerOffset"))
@@ -62,23 +63,26 @@ def run_bd():
             minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
             seconds = int((remainTime % (1000 * 60)) / 1000)
             if remainTime > 45000:
-                print("先别竞拍，当前商品还剩余： " + str(hours) + "小时",str(minutes) + "分",str(seconds) + "秒")
+                print("先别竞拍，当前商品还剩余： " + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
                 time.sleep(5)
             else:
                 if remainTime > 1000:
                     print(db_pmprice(0) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
                     time.sleep(2)
                 else:
-                    db_price = int(request_test.obtain_value("currentPrice") + request_test.obtain_value("priceHigherOffset"))
-                    print("我输入的最高价格是%s"%db_price)
-                    # expect_price = request_test.expect_price
-                    print("我输入的期望价格是%s" %expect_price)
+                    db_price = int(
+                        request_test.obtain_value("currentPrice") + request_test.obtain_value("priceHigherOffset"))
+                    print("我输入的最高价格是%s" % db_price)
+                    expect_price = request_test.expect_price
+                    print("我输入的期望价格是%s" % expect_price)
                     if db_price < expect_price:
-                        print(db_pmprice(db_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
+                        print(db_pmprice(db_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分",
+                              str(seconds) + "秒")
                         time.sleep(2)
                     else:
-                        # expect_price = request_test.expect_price
-                        print(db_pmprice(expect_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
+                        expect_price = request_test.expect_price
+                        print(db_pmprice(expect_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分",
+                              str(seconds) + "秒")
                         time.sleep(2)
         except Exception as e:
             print(e)
@@ -91,6 +95,7 @@ def run_bd():
             print("\033[1;35m我终于买到了！！！ \033[0m")
         else:
             print("又被人抢走了")
+threads = []
 if __name__ == '__main__':
     run_bd()
 
