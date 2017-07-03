@@ -17,7 +17,9 @@ def bid_result(key):
     cookies = format_cookies.format_cookies()
     res1 = requests.get(url1, params=url1_params, cookies=cookies, proxies=proxies)
     bid_result_text = res1.text
+    print(bid_result_text)
     bid_result_re = re.match(".*?bidList\":\[({.*})].*?",bid_result_text,re.S).group(1)
     bid_result_json = json.loads(bid_result_re)
     testkey_value = bid_result_json[key]
     return testkey_value
+print(bid_result("price"))

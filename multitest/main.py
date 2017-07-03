@@ -49,12 +49,12 @@ if __name__ == '__main__':
 	for ii in range(1,2):
 		#fetch get remainTime url
 		joburl = get_ParamIDs.get_list_url_params()
-		print(joburl)
+		# print(joburl)
 		#fetch get remainTime (0,10] job
 		joinurl = get_job_bytime.obtain_value(joburl)
 		for ii in joinurl:
 			push_back_job(ii)
-			print(ii)
+			# print(ii)
 		sleep(10)
 	exit_thread()
 	pool.wait()
