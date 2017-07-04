@@ -3,7 +3,7 @@ import requests
 import json
 import re
 # import test1.format_cookies
-from multidb import *
+from multidb import get_ProductName
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
@@ -31,5 +31,6 @@ def obtain_value(params):
     return jobarry
 
 #test code
+mymap = get_ProductName.get_paramid_map()
 url = get_ProductName.get_params_by_paramid_map(mymap);
 print(obtain_value(url))
