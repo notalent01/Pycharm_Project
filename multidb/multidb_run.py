@@ -1,11 +1,13 @@
+#!/usr/bin/python
 #coding=utf-8
-# from queue import Queue
-from multiprocessing import Queue
 from threading import Thread
+from multiprocessing import Queue
 from time import ctime,sleep
-import random
 import threadpool
-from multidb import *
+from multidb import get_ExpectPrice
+from multidb import get_ProductName
+from multidb import get_job_bytime
+from multidb import auction_Product
 
 global my_queue
 my_queue = Queue()
@@ -18,17 +20,18 @@ thread_cout = 20
 
 def deal_job(paramId):
     while 1:
-        print ("id:", paramId[0]," name:",paramId[1])
+        price_ = get_ExpectPrice.getPrice(paramId[1], u"3天")
+        auction_Product.run_bd(paramId[0],price_)
+        # print ("id:", paramId[0]," price:",price_)
         break
 
 
 def test_func(L):
     while thread_running:
         get_data = my_queue.get()
-        if(get_data == "exit"):
+        if(get_data[0] == "exit"):
             break;
         deal_job(get_data)
-    print ("threak exit,id:",L)
     return ""
 
 def exit_thread():
@@ -44,16 +47,15 @@ if __name__ == '__main__':
     requests = threadpool.makeRequests(test_func,data)
     [pool.putRequest(req) for req in requests]
 
-    for i in range(1,2):
-        # 获取拍卖页面的商品IDs
+    for i in range(0,1):
         mymap = get_ProductName.get_paramid_map()
-        # 获取参数
         params = get_ProductName.get_params_by_paramid_map(mymap)
-        #将参数带到查询时间页面，查询剩余时间少于规定时间，返回符合条件的商品ID数组
         jobarry = get_job_bytime.obtain_value(params)
-        #遍历符合条件的商品ID，分别push到各个任务中
         for ii in jobarry:
-            push_back_job([ii,mymap[ii]])
+            if ii in mymap:
+                push_back_job([ii,mymap[ii]])
+        sleep(10)
 
     exit_thread()
     pool.wait()
+    print("process exit")

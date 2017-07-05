@@ -16,7 +16,7 @@ def loads_jsonp(_jsonp):
 
 def obtain_value(params):
     url_current_list = "http://dbditem.jd.com/services/currentList.action"
-    print ("fetch remainTime:",params)
+    # print ("fetch remainTime:",params)
     jobarry = []
     if len(params) < 1:
         return jobarry
@@ -31,6 +31,6 @@ def obtain_value(params):
     return jobarry
 
 #test code
-mymap = get_ProductName.get_paramid_map()
-url = get_ProductName.get_params_by_paramid_map(mymap);
-print(obtain_value(url))
+# mymap = get_ProductName.get_paramid_map()
+# url = get_ProductName.get_params_by_paramid_map(mymap);
+# print(obtain_value(url))

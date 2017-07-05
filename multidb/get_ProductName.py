@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 def get_paramid_map():
     url = "http://dbd.jd.com/auctionList.html"
-    params = {"t":"","auctionType":"5","sortField":"2","productCateId":"2000","limit":"40","page":"1"}
+    params = {"t":"","auctionType":"5","sortField":"2","productCateId":"2000","limit":"5","page":"1"}
     rel = requests.get(url,params=params)
     rel.encoding = rel.apparent_encoding
     html = rel.text

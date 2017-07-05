@@ -1,13 +1,16 @@
 #!/usr/bin/python
 #coding=utf-8
+
 import requests
 from bs4 import BeautifulSoup
-from multidb import get_ProductName
-def get_productPrice(product_name):
-    #?code=1&name=&sul=0&time1=0&time2=0&zt=&day=90
-    url = "http://www.lianu.com/dbdsql3.php"
-    params = {"code":"1","name":product_name,"sul":"0","time1":"0","time2":"0","zt":"","day":"90"}
-    rel = requests.get(url,params=params)
+
+def getPrice(name,day):
+    url = "http://www.lianu.com/dbdsql3.php?code=1&name="
+    url += name
+    url += "&sul=0&time1=0&time2=0&zt=&day=90"
+    # print ("url:",url)
+    rel = requests.get(url)
+    rel.encoding = rel.apparent_encoding
     html = rel.text
     soup = BeautifulSoup(html,"html.parser")
     price = ""
@@ -28,12 +31,8 @@ def get_productPrice(product_name):
             if(len(second) < 1):
                     continue
 
-            if (first[0:1] == '3' and len(first) == 3):
+            if(first.find(day)):
                 price = second
                 break
 
     return price
-
-#test code
-product_name = get_ProductName.get_paramid_map()[0]
-print(get_productPrice(product_name))
