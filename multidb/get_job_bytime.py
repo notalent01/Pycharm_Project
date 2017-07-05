@@ -26,7 +26,7 @@ def obtain_value(params):
     for ii in a2:
         remainTime = ii["remainTime"]
         # print(ii)
-        if 0<remainTime < 500000:
+        if 0<remainTime < 10000:
             jobarry.append(str(ii["paimaiId"]))
     return jobarry
 

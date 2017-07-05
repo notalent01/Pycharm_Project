@@ -8,9 +8,6 @@ url_bid = "http://dbditem.jd.com/services/bid.action"
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
-# db_paimaiId = get_job_bytime.obtain_value(url)
-# expect_price = request_test.expect_price
-
 cookies = format_cookies.format_cookies()
 db_result = "result"
 def db_pmprice(db_paimaiId,db_price):
@@ -19,7 +16,7 @@ def db_pmprice(db_paimaiId,db_price):
                "X-Requested-With": "XMLHttpRequest",
                "Referer": "http://dbditem.jd.com/" + db_paimaiId
                }
-    db_currentPrice = int(request_test.obtain_value("currentPrice"))
+    db_currentPrice = int(request_test.obtain_value(db_paimaiId,"currentPrice"))
     if db_currentPrice < db_price:
         print('当前的价格：%s'%db_currentPrice)
         # db_price = int(request_test.obtain_value("currentPrice") + request_test.obtain_value("priceLowerOffset"))
@@ -39,9 +36,9 @@ def db_pmprice(db_paimaiId,db_price):
         jp_result = "不买了！当前的价格是%s"%db_currentPrice + "我的理想价格是%s"%db_price
     return jp_result
 def run_bd(db_paimaiId,db_price):
-    while request_test.obtain_value("remainTime") > 0:
+    while request_test.obtain_value(db_paimaiId,"remainTime") > 0:
         try:
-            remainTime = request_test.obtain_value("remainTime")
+            remainTime = request_test.obtain_value(db_paimaiId,"remainTime")
             hours = int((remainTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
             minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
             seconds = int((remainTime % (1000 * 60)) / 1000)

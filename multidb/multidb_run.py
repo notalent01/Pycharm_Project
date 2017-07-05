@@ -16,13 +16,13 @@ global thread_running
 thread_running = 1
 
 global thread_cout
-thread_cout = 20
+thread_cout = 5
 
 def deal_job(paramId):
     while 1:
         price_ = get_ExpectPrice.getPrice(paramId[1], u"3天")
-        auction_Product.run_bd(paramId[0],price_)
-        # print ("id:", paramId[0]," price:",price_)
+        print("id:", paramId[0], " price:", price_)
+        # auction_Product.run_bd(paramId[0],price_)
         break
 
 
