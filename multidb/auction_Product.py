@@ -11,6 +11,7 @@ proxies = {
 cookies = format_cookies.format_cookies()
 db_result = "result"
 def db_pmprice(db_paimaiId,db_price):
+    db_price = int(db_price)
     headers = {"Accept": "application/json, text/javascript, */*; q=0.01",
                "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0",
                "X-Requested-With": "XMLHttpRequest",
@@ -26,16 +27,17 @@ def db_pmprice(db_paimaiId,db_price):
         res = relbid.text
         res_json = json.loads(res)
         if res_json[db_result] == 200:
-            current_bid_price = bid_list.bid_result("price")
+            current_bid_price = bid_list.bid_result("price",db_paimaiId)
             jp_result = "\033[1;35m我出价成功了 \033[0m" + res_json["message"] + "   当前的价格是 " + str(current_bid_price)
         else :
-            current_bid_price = bid_list.bid_result("price")
-            current_bid_username = bid_list.bid_result("username")
+            current_bid_price = bid_list.bid_result("price",db_paimaiId)
+            current_bid_username = bid_list.bid_result("username",db_paimaiId)
             jp_result = "没有竞拍成功，原因是：" + res_json["message"] + "   当前领先的人是：" + current_bid_username + "   当前的价格是 " + str(current_bid_price)
     elif db_currentPrice > db_price:
         jp_result = "不买了！当前的价格是%s"%db_currentPrice + "我的理想价格是%s"%db_price
     return jp_result
 def run_bd(db_paimaiId,db_price):
+    print("当前剩余时间: %s" %request_test.obtain_value(db_paimaiId,"remainTime"))
     while request_test.obtain_value(db_paimaiId,"remainTime") > 0:
         try:
             remainTime = request_test.obtain_value(db_paimaiId,"remainTime")
@@ -47,8 +49,8 @@ def run_bd(db_paimaiId,db_price):
         except Exception as e:
             print(e)
     else:
-        current_bid_price = bid_list.bid_result("price")
-        current_bid_username = bid_list.bid_result("username")
+        current_bid_price = bid_list.bid_result("price",db_paimaiId)
+        current_bid_username = bid_list.bid_result("username",db_paimaiId)
         print("\033[1;33;44m竞拍已结束 !\033[0m")
         print("竞拍成功的人是：" + current_bid_username + "当前的价格是 " + str(current_bid_price))
         if current_bid_username == "****ujzz":

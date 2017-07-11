@@ -8,7 +8,7 @@ def getPrice(name,day):
     url = "http://www.lianu.com/dbdsql3.php?code=1&name="
     url += name
     url += "&sul=0&time1=0&time2=0&zt=&day=90"
-    # print ("url:",url)
+    print ("url:",url)
     rel = requests.get(url)
     rel.encoding = rel.apparent_encoding
     html = rel.text

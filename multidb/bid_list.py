@@ -6,10 +6,8 @@ import json
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
-def bid_result(key):
-    db_paimaiIds = request_test.db_paimaiIds
+def bid_result(key,db_paimaiIds):
     url1 = 'http://bid.jd.com/json/current/englishquery'
-    db_paimaiIds = request_test.db_paimaiIds
     url1_params = {"skuId": 0, "start": 0, "end": 0,
                "paimaiId": db_paimaiIds}
     cookies = format_cookies.format_cookies()

@@ -22,6 +22,7 @@ def deal_job(paramId):
     while 1:
         price_ = get_ExpectPrice.getPrice(paramId[1], u"3天")
         print("id:", paramId[0], " price:", price_)
+        auction_Product.run_bd(paramId[0],price_)
         # auction_Product.run_bd(paramId[0],price_)
         break
 
