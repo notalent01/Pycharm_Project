@@ -2,10 +2,13 @@ import requests
 import json
 import re
 import time
+import random
 from multidb import format_cookies
+
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
+i = random.randint(0, 8)
 def loads_jsonp(_jsonp):
     try:
         return json.loads(re.match(".*?({.*}).*",_jsonp,re.S).group(1))
@@ -19,11 +22,11 @@ def obtain_value(db_paimaiId,value):
     callback_str = "%s%s" % ("jsonp_ ", current_localtime)
     url1_params = {"paimaiIds": db_paimaiId, "curPaimaiId": db_paimaiId, "callback": callback_str,
                    "_": next_localtime}
-    cookies = format_cookies.format_cookies()
+    cookies = format_cookies.format_cookies(i)
     res1 = requests.get(url1, params=url1_params, cookies=cookies, proxies=proxies)
     a1 = res1.text
     a2 = loads_jsonp(a1)
     current_value = a2[value]
     return current_value
-# print(obtain_value("currentPrice"))
+# print(obtain_value(15956384,"currentPrice"))
 

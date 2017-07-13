@@ -1,6 +1,7 @@
 import requests
 from multidb import request_test
 from multidb import login_Cookies
+from multidb import format_cookies
 import re
 import json
 proxies = {
@@ -10,7 +11,8 @@ def bid_result(key,db_paimaiIds):
     url1 = 'http://bid.jd.com/json/current/englishquery'
     url1_params = {"skuId": 0, "start": 0, "end": 0,
                "paimaiId": db_paimaiIds}
-    cookies = login_Cookies.get_loginCookies("jd_6e4cafd025ac1","chenlu15432")
+    i = request_test.i
+    cookies = format_cookies.format_cookies(i)
     res1 = requests.get(url1, params=url1_params, cookies=cookies)
     bid_result_text = res1.text
     # print(bid_result_text)

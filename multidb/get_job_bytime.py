@@ -26,7 +26,7 @@ def obtain_value(params):
     for ii in a2:
         remainTime = ii["remainTime"]
         print("第一次拿到的商品剩余时间：%s" %remainTime)
-        if 0<remainTime < 20000:
+        if 0<remainTime < 30000:
             jobarry.append(str(ii["paimaiId"]))
         else:
              print("没有满足规定剩余时间的商品！！！")

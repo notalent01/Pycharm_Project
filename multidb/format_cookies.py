@@ -1,13 +1,18 @@
-def format_cookies():
-    try:
-        f = open(r'cookies/cookie2.txt','r',encoding="utf-8")
-        # print(f)
-        cookies = {}
-        for line in f.read().split(';'):   #按照字符：进行划分读取
-        #其设置为1就会把字符串拆分成2份
-            name,value=line.strip().split('=',1)
-            cookies[name]=value  #为字典cookies添加内容
-        return cookies
-    except Exception as e:
-        print(e)
+import random
+# i = random.randint(0,8)
+def format_cookies(i):
+    with open("cookies/cookie.txt","r") as f:
+        for line in f.readlines()[i:i+1]:
+            cookies = eval(line)
+    f.close()
+    return cookies
+
+def get_cookieUser(i):
+    new_cookie = format_cookies(i)
+    my_bd_name = new_cookie["pin"]
+    my_bd_name_last4 = "****" + my_bd_name[-4:]
+    return my_bd_name_last4
+# print(get_cookieUser(i))
+
+
 # print(format_cookies())
