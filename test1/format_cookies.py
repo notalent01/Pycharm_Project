@@ -7,4 +7,5 @@ def format_cookies():
         name,value=line.strip().split('=',1)
         cookies[name]=value  #为字典cookies添加内容
     return cookies
-# print(format_cookies())
+print(format_cookies())
+print(type(format_cookies()))

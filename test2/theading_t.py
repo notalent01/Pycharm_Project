@@ -1,27 +1,23 @@
-#coding=utf-8
-import threading
-from time import ctime,sleep
+from selenium import webdriver
+import time
+# from multidb import get_userPwd
+# from multiprocessing import Queue
+# from time import ctime,sleep
 
-
-def music(func):
-    for i in range(2):
-        print ("I was listening to %s. %s" %(func,ctime()))
-        sleep(1)
-
-def move(func):
-    for i in range(2):
-        print ("I was at the %s! %s" %(func,ctime()))
-        sleep(5)
-
-threads = []
-t1 = threading.Thread(target=music,args=(u'爱情买卖',))
-threads.append(t1)
-t2 = threading.Thread(target=move,args=(u'阿凡达',))
-threads.append(t2)
-
-if __name__ == '__main__':
-    for t in threads:
-        t.setDaemon(True)
-        t.start()
-    t.join()
-    print ("all over %s" %ctime())
+def get_loginCookies(uname, pwd):
+    driver = webdriver.Chrome()
+    url_login = "https://passport.jd.com/new/login.aspx"
+    driver.get(url_login)
+    driver.find_element_by_link_text("账户登录").click()
+    driver.find_element_by_name("loginname").clear()
+    driver.find_element_by_name("loginname").send_keys(uname)
+    driver.find_element_by_name("nloginpwd").send_keys(pwd)
+    driver.find_element_by_id("loginsubmit").click()
+    time.sleep(3)
+    url_home = "https://home.jd.com/"
+    driver.get(url_home)
+    jingdou = driver.find_element_by_xpath("//*[@id='JingdouCount']/em").text
+    print(jingdou)
+    print(type(jingdou))
+    driver.close()
+get_loginCookies("jd_55425be715341","jd123456")

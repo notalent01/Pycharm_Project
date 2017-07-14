@@ -14,15 +14,24 @@ def get_loginCookies(uname, pwd):
     driver.find_element_by_name("nloginpwd").send_keys(pwd)
     driver.find_element_by_id("loginsubmit").click()
     time.sleep(3)
+    url_home = "https://home.jd.com/"
+    driver.get(url_home)
+    jingdou = int(driver.find_element_by_xpath("//*[@id='JingdouCount']/em").text)
+    print(jingdou)
     # get the session cookie
-    cookie = [item["name"] + "=" + item["value"] for item in driver.get_cookies()]
-    cookiestr = ';'.join(item for item in cookie)
-    cookies_format = {}
-    for line in cookiestr.split(";"):
-        name, value = line.strip().split('=', 1)
-        cookies_format[name] = value  # 为字典cookies添加内容
-    driver.close()
-    return cookies_format
+    if jingdou >= 0:
+        cookie = [item["name"] + "=" + item["value"] for item in driver.get_cookies()]
+        cookiestr = ';'.join(item for item in cookie)
+        cookies_format = {}
+        for line in cookiestr.split(";"):
+            name, value = line.strip().split('=', 1)
+            cookies_format[name] = value  # 为字典cookies添加内容
+        driver.close()
+        return cookies_format
+    else:
+        print(uname + "  的账户京豆不足")
+        driver.close()
+        return "\n"
 def save_cookie(username,password):
     with open("cookies/cookie.txt","a") as f:
         cookies = str(get_loginCookies(username, password))

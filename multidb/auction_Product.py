@@ -44,7 +44,7 @@ def db_pmprice(db_paimaiId,db_price):
 def run_bd(db_paimaiId,db_price):
     remainTime = request_test.obtain_value(db_paimaiId,"remainTime")
     print("当前剩余时间: %s" %remainTime)
-    while remainTime > 0:
+    while request_test.obtain_value(db_paimaiId,"remainTime" ) > 0:
         try:
             hours = int((remainTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
             minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
