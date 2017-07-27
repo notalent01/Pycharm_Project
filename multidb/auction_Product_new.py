@@ -5,6 +5,7 @@ import random
 from multidb import format_cookies
 from multidb import request_test
 from multidb import bid_list
+from multidb import MyTimer
 url_bid = "http://dbditem.jd.com/services/bid.action"
 proxies = {
     "http":"http://127.0.0.1:8888"
@@ -24,39 +25,36 @@ def db_pmprice(db_paimaiId,db_price,i):
                }
     db_currentPrice = int(request_test.obtain_value(db_paimaiId,"currentPrice"))
     jp_result = ""
-    # print(db_currentPrice)
-    if db_currentPrice < db_price:
-        cookies = format_cookies.format_cookies(i)
+    cookies = format_cookies.format_cookies(i)
         # print('当前的价格：%s'%db_currentPrice)
-        print('我出的价格：%s'%db_price + "   出价的账户是：" + my_bid_username )
-        urlbid_params = {"t": "054488", "paimaiId": db_paimaiId, "price": db_price, "proxyFlag": "0", "bidSource": "0"}
-        relbid = requests.get(url_bid, params=urlbid_params, headers=headers, cookies=cookies, proxies=proxies)
-        res = relbid.text
-        res_json = json.loads(res)
-        if res_json[db_result] == 200:
-            current_bid_price = bid_list.bid_result("price",db_paimaiId)
-            jp_result = my_bid_username +  "  \033[1;35m出价成功了 \033[0m" + res_json["message"]   +  "   当前的价格是 " + str(current_bid_price)
-        else :
-            current_bid_price = bid_list.bid_result("price",db_paimaiId)
-            current_bid_username = bid_list.bid_result("username",db_paimaiId)
-            jp_result = "没有竞拍成功，原因是：" + res_json["message"] + "   当前领先的人是：" + current_bid_username + "   当前的价格是 " + str(current_bid_price)
-    elif db_currentPrice > db_price:
-        jp_result = my_bid_username + " 不买了！当前的价格是%s"%db_currentPrice + "; " + "我的理想价格是%s"%db_price
+    print('我出的价格：%s'%db_price + "   出价的账户是：" + my_bid_username )
+    urlbid_params = {"t": "054488", "paimaiId": db_paimaiId, "price": db_price, "proxyFlag": "0", "bidSource": "0"}
+    relbid = requests.get(url_bid, params=urlbid_params, headers=headers, cookies=cookies, proxies=proxies)
+    res = relbid.text
+    res_json = json.loads(res)
+    if res_json[db_result] == 200:
+        current_bid_price = bid_list.bid_result("price",db_paimaiId)
+        jp_result = my_bid_username +  "  \033[1;35m出价成功了 \033[0m" + res_json["message"]   +  "   当前的价格是 " + str(current_bid_price)
+    else :
+        current_bid_price = bid_list.bid_result("price",db_paimaiId)
+        current_bid_username = bid_list.bid_result("username",db_paimaiId)
+        jp_result = "没有竞拍成功，原因是：" + res_json["message"] + "   当前领先的人是：" + current_bid_username + "   当前的价格是 " + str(current_bid_price)
     return jp_result
 def run_bd(db_paimaiId,db_price,db_productName):
     with open("cookies/cookie.txt", "r") as f:
         i = random.randint(0, len(f.readlines()) - 1)
     remainTime = request_test.obtain_value(db_paimaiId,"remainTime")
+    print("\033[1;32m开始竞拍流程，当前剩余竞拍时间：\033[0m",remainTime)
     while request_test.obtain_value(db_paimaiId,"remainTime" ) > 0:
         db_currentPrice = int(request_test.obtain_value(db_paimaiId, "currentPrice"))
-        db_price = int(db_price)
+        db_price = int(db_price) - 200
         if db_currentPrice < db_price:
             try:
                 hours = int((remainTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
                 minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
                 seconds = int((remainTime % (1000 * 60)) / 1000)
                 print(db_pmprice(db_paimaiId, db_price,i) + " :" + db_productName + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
-                time.sleep(2)
+                time.sleep(10)
             except Exception as e:
                 print(e)
         else:
@@ -71,7 +69,7 @@ def run_bd(db_paimaiId,db_price,db_productName):
         print("竞拍成功的人是：" + current_bid_username + "  : " + db_productName + "当前的价格是 " + str(current_bid_price))
         f = open("cookies/jingpai1.txt","w")
         if current_bid_username == my_bd_nick_last4:
-            print("\033[1;35m我终于买到了！！！ \033[0m" + "  " + db_productName +":" + db_paimaiId )
+            # print("\033[1;35m我终于买到了！！！ \033[0m" + "  " + db_productName +":" + db_paimaiId )
             print("\033[1;35m我终于买到了！！！ \033[0m" + "  " + db_productName +":" + db_paimaiId,file = f )
         else:
             print("又被人抢走了")

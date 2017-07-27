@@ -29,15 +29,18 @@ def get_loginCookies(uname, pwd):
         driver.close()
         return cookies_format
     else:
-        print(uname + "  的账户京豆不足")
+        print(uname+ "  \033[1;33;44m 的账户京豆不足!\033[0m")
         driver.close()
-        return "\n"
+        return ""
 def save_cookie(username,password):
     with open("cookies/cookie.txt","a") as f:
         cookies = str(get_loginCookies(username, password))
         print(cookies)
-        f.write(cookies + "\n")
-        f.close()
+        if cookies != "":
+            f.write(cookies + "\n")
+            f.close()
+        else:
+            print("该账号京豆不足，不写入cookie")
 # print(get_loginCookies("jd_6e4cafd025ac1","chenlu15432"))
 if __name__ == '__main__':
     userPwd = get_userPwd.get_user()

@@ -24,9 +24,9 @@ def db_pmprice(db_price):
     db_currentPrice = int(request_test.obtain_value("currentPrice"))
     expect_price = request_test.expect_price
     if db_currentPrice > db_price and db_currentPrice <= expect_price:
-        print('当前的价格：%s'%db_currentPrice)
+        # print('当前的价格：%s'%db_currentPrice)
         db_price = int(request_test.obtain_value("currentPrice") + request_test.obtain_value("priceLowerOffset"))
-        print('我出的价格：%s'%db_price)
+        # print('我出的价格：%s'%db_price)
         urlbid_params = {"t": "054488", "paimaiId": db_paimaiId, "price": db_price, "proxyFlag": "0", "bidSource": "0"}
         relbid = requests.get(url_bid, params=urlbid_params, headers=headers, cookies=cookies, proxies=proxies)
         res = relbid.text
@@ -63,21 +63,21 @@ def run_bd():
             minutes = int((remainTime % (1000 * 60 * 60)) / (1000 * 60))
             seconds = int((remainTime % (1000 * 60)) / 1000)
             if remainTime > 45000:
-                print("先别竞拍，当前商品还剩余： " + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
+                # print("先别竞拍，当前商品还剩余： " + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
                 time.sleep(5)
             else:
                 if remainTime > 1000:
-                    print(db_pmprice(0) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
+                    # print(db_pmprice(0) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分", str(seconds) + "秒")
                     time.sleep(2)
                 else:
                     db_price = int(
                         request_test.obtain_value("currentPrice") + request_test.obtain_value("priceHigherOffset"))
-                    print("我输入的最高价格是%s" % db_price)
+                    # print("我输入的最高价格是%s" % db_price)
                     expect_price = request_test.expect_price
-                    print("我输入的期望价格是%s" % expect_price)
+                    # print("我输入的期望价格是%s" % expect_price)
                     if db_price < expect_price:
-                        print(db_pmprice(db_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分",
-                              str(seconds) + "秒")
+                        # # print(db_pmprice(db_price) + "  时间还剩下：" + str(hours) + "小时", str(minutes) + "分",
+                        #       str(seconds) + "秒")
                         time.sleep(2)
                     else:
                         expect_price = request_test.expect_price

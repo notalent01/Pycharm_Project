@@ -8,7 +8,8 @@ from multidb import format_cookies
 proxies = {
     "http":"http://127.0.0.1:8888"
 }
-i = random.randint(0, 8)
+with open ("cookies/cookie.txt","r") as f :
+    i = random.randint(0, len(f.readlines())-1)
 def loads_jsonp(_jsonp):
     try:
         return json.loads(re.match(".*?({.*}).*",_jsonp,re.S).group(1))

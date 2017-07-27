@@ -4,7 +4,7 @@ from urllib import parse
 # i = random.randint(0,10)
 def format_cookies(i):
     cookies = {}
-    with open("cookies/cookie.txt","r") as f:
+    with open("cookie.txt","r") as f:
         for line in f.readlines()[i:i+1]:
             cookies = eval(line)
     f.close()
